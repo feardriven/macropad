@@ -18,7 +18,10 @@
 
 / {
 
-
+chosen {
+        zmk,underglow = &led_strip;
+    };
+    
 macros {
         zed_em_kay: zed_em_kay {
             label = "ZM_zed_em_kay";
@@ -58,7 +61,7 @@ macros {
      &kp F5             &kp F6         &kp F7
      &kp F3             &kp F8         &kp PG_UP
      &rgb_ug RGB_TOG    &teams_mute    &kp PG_DN
-     &kp C_PP           &bt BT_CLR     &tog 1
+     &kp C_PP           &bt BT_CLR     &tog KEYPAD
              >;
 
              sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP>;
@@ -75,7 +78,7 @@ macros {
     &kp N7       &kp N8     &kp N9
     &kp N4       &kp N5     &kp N6
     &kp N1       &kp N2     &kp N3
-    &kp C_PP     &kp N0     &tog 0 
+    &kp C_PP     &kp N0     &tog DEFAULT 
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP>;
