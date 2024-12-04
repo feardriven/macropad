@@ -90,7 +90,7 @@ macros {
     &kp ENTER    &kp N0     &trans
             >;
 
-            sensor-bindings = <&rot_kp PG_UP PG_DN>;
+            sensor-bindings = &inc_dec_kp PG_UP PG_DN>;
         };
 
          
