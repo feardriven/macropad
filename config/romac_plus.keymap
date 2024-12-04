@@ -7,43 +7,80 @@
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/rgb.h>
+
+#define DEFAULT 0
+#define KEYPAD  1
+
+&led_strip {
+    chain-length = <4>;
+};
 
 / {
+
+
+macros {
+        zed_em_kay: zed_em_kay {
+            label = "ZM_zed_em_kay";
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LSHFT>
+                , <&macro_tap &kp Z &kp M &kp K>
+                , <&macro_release &kp LSHFT>
+                ;
+        };
+        teams_mute: teams_mute {
+            label = "teams_mute";
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LSHFT>
+                , <&macro_press &kp LCTRL>
+                , <&macro_tap &kp M>
+                , <&macro_release &kp LSHFT>
+                , <&macro_release &kp LCTRL>
+                ;
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
         default_layer {
 // --------------------------
+// | F5          |  F6        |  F7      |
+// | F3          |  F8        |  PG_UP   |
+// | BT_NEXT     |  BT_PREV   |  PG_DOWN |
+// | M_PLAY      |  BT_CLEAR  |  TOGGLE  |
+// --------------------------
+             bindings = <
+     &kp F5             &kp F6         &kp F7
+     &kp F3             &kp F8         &kp PG_UP
+     &rgb_ug RGB_TOG    &teams_mute    &kp PG_DN
+     &kp C_PP           &bt BT_CLR     &tog 1
+             >;
+
+             sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP>;
+         };
+
+        keypad {
+// --------------------------
 // | 7      |  8  |  9      |
 // | 4      |  5  |  6      |
 // | 1      |  2  |  3      |
-// | M_PLAY |  0  |  MO(1)  |
+// | M_PLAY |  0  |  TOGGLE |
 // --------------------------
             bindings = <
-    &kp N7   &kp N8 &kp N9
-    &kp N4   &kp N5 &kp N6
-    &kp N1   &kp N2 &kp N3
-    &kp C_PP &kp N0 &mo 1
+    &kp N7       &kp N8     &kp N9
+    &kp N4       &kp N5     &kp N6
+    &kp N1       &kp N2     &kp N3
+    &kp C_PP     &kp N0     &tog 0 
             >;
 
-            sensor-bindings = <&inc_dec_kp C_NEXT C_PREV>;
+            sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP>;
         };
 
-         nav_layer {
-// --------------------------
-// | BT_CLR |  HOME |  PGUP |
-// | _      |  END  |  PGDN |
-// | _      |  _    |  _    |
-// | _      |  _    |  _    |
-// --------------------------
-             bindings = <
-     &bt BT_CLR &kp HOME &kp PG_UP
-     &trans     &kp END  &kp PG_DN
-     &trans     &trans   &trans
-     &trans     &trans   &trans
-             >;
-
-             sensor-bindings = <&inc_dec_kp A B>;
-         };
+         
     };
 };
